@@ -36,4 +36,31 @@ class FuzzySearchTests: XCTestCase {
             NSRange(location: 0, length: 9)
         ])
     }
+    
+    func testThatFuzzySearchableArrayReturnsFilteredResults() {
+        let strs = [
+            "Ladies Wash, Cut & Blow Dry",
+            "Weird Assassin",
+            "Wash & Go",
+            "Go to wash"
+        ]
+        XCTAssertEqual(strs.fuzzyMatch("wash").map{ $0.item }, [
+            "Ladies Wash, Cut & Blow Dry",
+            "Wash & Go",
+            "Go to wash"
+        ])
+    }
+    
+    func testThatFuzzySearchableArrayReturnsSortedResults() {
+        let strs = [
+            "Ladies Wash, Cut & Blow Dry",
+            "World in ashes",
+            "Wash & Go"
+        ]
+        XCTAssertEqual(strs.fuzzyMatch("wash").map{ $0.item }, [
+            "Ladies Wash, Cut & Blow Dry",
+            "Wash & Go",
+            "World in ashes"
+        ])
+    }
 }

@@ -64,3 +64,15 @@ public extension FuzzySearchable {
         }
     }
 }
+
+public extension CollectionType where Generator.Element: FuzzySearchable {
+    func fuzzyMatch(pattern: String) -> [(item: Generator.Element, result: FuzzySearchResult)] {
+        return map{
+            (item: $0, result: $0.fuzzyMatch(pattern))
+        }.filter{
+            $0.result.weight > 0
+        }.sort{
+            $0.result.weight > $1.result.weight
+        }
+    }
+}
