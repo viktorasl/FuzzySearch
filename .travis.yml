@@ -1,4 +1,4 @@
 language: objective-c
 osx_image: xcode7.2
 script:
-- xctool test -project FuzzySearch.xcodeproj -scheme Tests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+- xctool test -project FuzzySearch.xcodeproj -scheme FuzzySearch -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
