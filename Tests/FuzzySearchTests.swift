@@ -7,30 +7,33 @@
 //
 
 import XCTest
-@testable import FuzzySearch
+import FuzzySearch
+
+extension String: FuzzySearchable {
+    public var fuzzyStringToMatch: String {
+        return self
+    }
+}
 
 class FuzzySearchTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testThatConsecutiveMatchingGives2xForEachChar() {
+        let str = "Ladies Wash, Cut & Blow Dry"
+        XCTAssertEqual(str.fuzzyMatch("l").weight, 1)
+        XCTAssertEqual(str.fuzzyMatch("la").weight, 4)
+        XCTAssertEqual(str.fuzzyMatch("lad").weight, 11)
+        XCTAssertEqual(str.fuzzyMatch("ladi").weight, 26)
+        XCTAssertEqual(str.fuzzyMatch("ladie").weight, 57)
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func testThatCorrectMatchingPartsAreReturned() {
+        XCTAssertEqual("Ladies Wash, Cut & Blow Dry".fuzzyMatch("ladieblry").parts, [
+            NSRange(location: 0, length: 5),
+            NSRange(location: 19, length: 2),
+            NSRange(location: 25, length: 2)
+        ])
+        XCTAssertEqual("Short Cut".fuzzyMatch("Short Cut").parts, [
+            NSRange(location: 0, length: 9)
+        ])
     }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }
