@@ -63,4 +63,13 @@ class FuzzySearchTests: XCTestCase {
             "World in ashes"
         ])
     }
+    
+    func testSpeedOfFuzzySearchFor1000SpanishWords() {
+        let path = NSBundle(forClass: self.dynamicType).pathForResource("spanish-words", ofType: "json")!
+        let jsonData = try! NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe)
+        let spanishWords: Array<String> = try! NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers) as! Array<String>
+        measureBlock{
+            spanishWords.fuzzyMatch("la sart")
+        }
+    }
 }

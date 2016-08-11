@@ -11,6 +11,7 @@
 		6EC87F9E1D54C1EB001DF504 /* FuzzySearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC87F931D54C1EB001DF504 /* FuzzySearch.framework */; };
 		6EC87FA31D54C1EB001DF504 /* FuzzySearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC87FA21D54C1EB001DF504 /* FuzzySearchTests.swift */; };
 		6EC87FAF1D54C355001DF504 /* FuzzySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC87FAE1D54C355001DF504 /* FuzzySearch.swift */; };
+		6EF24A881D5D0065008CA3B1 /* spanish-words.json in Resources */ = {isa = PBXBuildFile; fileRef = 6EF24A861D5D005E008CA3B1 /* spanish-words.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,7 @@
 		6EC87FA21D54C1EB001DF504 /* FuzzySearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FuzzySearchTests.swift; path = ../Tests/FuzzySearchTests.swift; sourceTree = "<group>"; };
 		6EC87FA41D54C1EB001DF504 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Tests/Info.plist; sourceTree = "<group>"; };
 		6EC87FAE1D54C355001DF504 /* FuzzySearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FuzzySearch.swift; sourceTree = "<group>"; };
+		6EF24A861D5D005E008CA3B1 /* spanish-words.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "spanish-words.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,11 +85,20 @@
 		6EC87FA11D54C1EB001DF504 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				6EF24A851D5D0050008CA3B1 /* Fixtures */,
 				6EC87FA21D54C1EB001DF504 /* FuzzySearchTests.swift */,
 				6EC87FA41D54C1EB001DF504 /* Info.plist */,
 			);
 			name = Tests;
 			path = Source;
+			sourceTree = "<group>";
+		};
+		6EF24A851D5D0050008CA3B1 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				6EF24A861D5D005E008CA3B1 /* spanish-words.json */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,6 +199,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EF24A881D5D0065008CA3B1 /* spanish-words.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +402,7 @@
 				6EC87FA91D54C1EB001DF504 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6EC87FAA1D54C1EB001DF504 /* Build configuration list for PBXNativeTarget "FuzzySearchTests" */ = {
 			isa = XCConfigurationList;
@@ -398,6 +411,7 @@
 				6EC87FAC1D54C1EB001DF504 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
