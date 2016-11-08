@@ -7,6 +7,7 @@ Lightweight Fuzzy evaluation protocol with CollectionType extension
 ## Requirements
 
 iOS 8.0+
+Swift 2.3
 
 ## Usage
 
