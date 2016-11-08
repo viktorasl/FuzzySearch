@@ -63,4 +63,24 @@ class FuzzySearchTests: XCTestCase {
             "World in ashes"
         ])
     }
+    
+    func testThatAccentFoldingWorks() {
+        XCTAssertEqual("Øresund".fuzzyMatch("ore").parts, [NSRange(location: 0, length: 3)])
+        XCTAssertEqual("Æon Flux".fuzzyMatch("aeon fl").parts, [NSRange(location: 0, length: 6)])
+        XCTAssertEqual("la víbora".fuzzyMatch("vibor").parts, [NSRange(location: 3, length: 5)])
+        XCTAssertEqual("bádminton".fuzzyMatch("badmin").parts, [NSRange(location: 0, length: 6)])
+    }
+    
+    func testThatAccentFoldingWorksWithMixedAccents() {
+        XCTAssertEqual("ačiū".fuzzyMatch("ačiu").parts, [NSRange(location: 0, length: 4)])
+    }
+    
+    func testSpeedOfFuzzySearchFor1000SpanishWords() {
+        let path = NSBundle(forClass: self.dynamicType).pathForResource("spanish-words", ofType: "json")!
+        let jsonData = try! NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe)
+        let spanishWords: Array<String> = try! NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers) as! Array<String>
+        measureBlock{
+            spanishWords.fuzzyMatch("la sart")
+        }
+    }
 }
