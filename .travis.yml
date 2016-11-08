@@ -1,4 +1,11 @@
 language: objective-c
 osx_image: xcode8
+env:
+  global:
+  - PROJECT=FuzzySearch.xcodeproj
+  - IOS_SDK=iphonesimulator10.0
+  - IOS_FRAMEWORK_SCHEME="FuzzySearchTests"
+  matrix:
+    - DESTINATION="OS=9.0,name=iPhone 5"        SCHEME="$IOS_FRAMEWORK_SCHEME"    SDK="$IOS_SDK"
 script:
-- xcodebuild clean test -project FuzzySearch.xcodeproj -scheme FuzzySearch -sdk iphonesimulator -destination 'platform=iOS Simulator,OS=9.0,name=iPhone 5' ONLY_ACTIVE_ARCH=NO | xcpretty
+  - xcodebuild -project "$PROJECT" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" ONLY_ACTIVE_ARCH=NO test | xcpretty

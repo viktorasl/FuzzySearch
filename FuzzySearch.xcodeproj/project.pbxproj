@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E7754481DD8F6E2007510E2 /* FuzzySearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC87F931D54C1EB001DF504 /* FuzzySearch.framework */; };
+		6E77544A1DD8F715007510E2 /* FuzzySearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC87FA21D54C1EB001DF504 /* FuzzySearchTests.swift */; };
 		6EC87F971D54C1EB001DF504 /* FuzzySearch.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC87F961D54C1EB001DF504 /* FuzzySearch.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6EC87F9E1D54C1EB001DF504 /* FuzzySearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC87F931D54C1EB001DF504 /* FuzzySearch.framework */; };
-		6EC87FA31D54C1EB001DF504 /* FuzzySearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC87FA21D54C1EB001DF504 /* FuzzySearchTests.swift */; };
 		6EC87FAF1D54C355001DF504 /* FuzzySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC87FAE1D54C355001DF504 /* FuzzySearch.swift */; };
 		6EF24A881D5D0065008CA3B1 /* spanish-words.json in Resources */ = {isa = PBXBuildFile; fileRef = 6EF24A861D5D005E008CA3B1 /* spanish-words.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6EC87F9F1D54C1EB001DF504 /* PBXContainerItemProxy */ = {
+		6E7754461DD8F6DE007510E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6EC87F8A1D54C1EB001DF504 /* Project object */;
 			proxyType = 1;
@@ -47,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EC87F9E1D54C1EB001DF504 /* FuzzySearch.framework in Frameworks */,
+				6E7754481DD8F6E2007510E2 /* FuzzySearch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,8 @@
 			children = (
 				6EF24A861D5D005E008CA3B1 /* spanish-words.json */,
 			);
-			path = Fixtures;
+			name = Fixtures;
+			path = ../Tests/Fixtures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,7 +145,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				6EC87FA01D54C1EB001DF504 /* PBXTargetDependency */,
+				6E7754471DD8F6DE007510E2 /* PBXTargetDependency */,
 			);
 			name = FuzzySearchTests;
 			productName = FuzzySearchTests;
@@ -157,7 +158,7 @@
 		6EC87F8A1D54C1EB001DF504 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Treatwell;
 				TargetAttributes = {
@@ -220,17 +221,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EC87FA31D54C1EB001DF504 /* FuzzySearchTests.swift in Sources */,
+				6E77544A1DD8F715007510E2 /* FuzzySearchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6EC87FA01D54C1EB001DF504 /* PBXTargetDependency */ = {
+		6E7754471DD8F6DE007510E2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6EC87F921D54C1EB001DF504 /* FuzzySearch */;
-			targetProxy = 6EC87F9F1D54C1EB001DF504 /* PBXContainerItemProxy */;
+			targetProxy = 6E7754461DD8F6DE007510E2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -275,7 +276,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -320,7 +321,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -381,6 +382,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.viktorasl.FuzzySearchTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
@@ -392,6 +394,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.viktorasl.FuzzySearchTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
