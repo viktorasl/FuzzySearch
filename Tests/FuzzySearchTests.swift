@@ -15,6 +15,11 @@ extension String: FuzzySearchable {
     }
 }
 
+extension NSRange: Equatable {}
+public func ==(lhs: NSRange, rhs: NSRange) -> Bool {
+    return lhs.length == rhs.length && lhs.location == rhs.location
+}
+
 class FuzzySearchTests: XCTestCase {
     
     func testThatConsecutiveMatchingGives2xForEachChar() {
@@ -76,11 +81,11 @@ class FuzzySearchTests: XCTestCase {
     }
     
     func testSpeedOfFuzzySearchFor1000SpanishWords() {
-        let path = NSBundle(forClass: self.dynamicType).pathForResource("spanish-words", ofType: "json")!
-        let jsonData = try! NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe)
-        let spanishWords: Array<String> = try! NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers) as! Array<String>
-        measureBlock{
-            spanishWords.fuzzyMatch("la sart")
+        let path = Bundle(for: type(of: self)).path(forResource: "spanish-words", ofType: "json")!
+        let jsonData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+        let spanishWords: Array<String> = try! JSONSerialization.jsonObject(with: jsonData as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! Array<String>
+        measure{
+            _ = spanishWords.fuzzyMatch("la sart")
         }
     }
 }

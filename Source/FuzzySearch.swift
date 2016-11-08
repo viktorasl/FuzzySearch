@@ -16,14 +16,14 @@ private struct CharOpts {
 private extension String {
     subscript(i: Int) -> Character? {
         guard i >= 0 && i < characters.count else { return nil }
-        return self[startIndex.advancedBy(i)]
+        return self[characters.index(startIndex, offsetBy: i)]
     }
     
     func tokenize() -> [CharOpts] {
         return characters.map{
-            let str = String($0).lowercaseString
-            guard let data = str.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: true),
-                accentFoldedStr = String(data: data, encoding: NSASCIIStringEncoding) else {
+            let str = String($0).lowercased()
+            guard let data = str.data(using: .ascii, allowLossyConversion: true),
+                let accentFoldedStr = String(data: data, encoding: .ascii) else {
                 return CharOpts(ch: str, normalized: str)
             }
             return CharOpts(ch: str, normalized: accentFoldedStr)
@@ -31,9 +31,9 @@ private extension String {
     }
     
     // checking if string has prefix and returning prefix length on success
-    func hasPrefix(prefix: CharOpts, atIndex index: Int) -> Int? {
+    func hasPrefix(_ prefix: CharOpts, atIndex index: Int) -> Int? {
         for pfx in [prefix.ch, prefix.normalized] {
-            if substringFromIndex(startIndex.advancedBy(index)).hasPrefix(pfx) {
+            if substring(from: characters.index(startIndex, offsetBy: index)).hasPrefix(pfx) {
                 return pfx.characters.count
             }
         }
@@ -51,10 +51,10 @@ public protocol FuzzySearchable {
 }
 
 public extension FuzzySearchable {
-    func fuzzyMatch(pattern: String) -> FuzzySearchResult {
+    func fuzzyMatch(_ pattern: String) -> FuzzySearchResult {
         let compareString = fuzzyStringToMatch.tokenize()
         
-        let pattern = pattern.lowercaseString
+        let pattern = pattern.lowercased()
         
         var totalScore = 0
         var parts: [NSRange] = []
@@ -63,7 +63,7 @@ public extension FuzzySearchable {
         var currScore = 0
         var currPart = NSRange(location: 0, length: 0)
         
-        for (idx, strChar) in compareString.enumerate() {
+        for (idx, strChar) in compareString.enumerated() {
             if let prefixLength = pattern.hasPrefix(strChar, atIndex: patternIdx) {
                 patternIdx += prefixLength
                 currScore += 1 + currScore
@@ -90,13 +90,13 @@ public extension FuzzySearchable {
     }
 }
 
-public extension CollectionType where Generator.Element: FuzzySearchable {
-    func fuzzyMatch(pattern: String) -> [(item: Generator.Element, result: FuzzySearchResult)] {
+public extension Collection where Iterator.Element: FuzzySearchable {
+    func fuzzyMatch(_ pattern: String) -> [(item: Iterator.Element, result: FuzzySearchResult)] {
         return map{
             (item: $0, result: $0.fuzzyMatch(pattern))
         }.filter{
             $0.result.weight > 0
-        }.sort{
+        }.sorted{
             $0.result.weight > $1.result.weight
         }
     }
