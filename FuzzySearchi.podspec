@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'FuzzySearchi'
-  s.version = '1.0.0'
+  s.version = '1.1.0'
   s.license = 'MIT'
   s.summary = 'Lightweight Fuzzy evaluation protocol with CollectionType extension'
   s.homepage = 'https://github.com/viktorasl/FuzzySearch'
