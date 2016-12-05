@@ -1,6 +1,10 @@
 # FuzzySearch
 
 [![Build Status](https://travis-ci.org/viktorasl/FuzzySearch.svg)](https://travis-ci.org/viktorasl/FuzzySearch)
+[![Swift Package Manager Compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-4BC51D.svg?style=flat)](https://github.com/apple/swift-package-manager)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/SwiftHEXColors.svg)](https://img.shields.io/cocoapods/v/FuzzySearch.svg)
+[![Platform](https://img.shields.io/cocoapods/p/SwiftHEXColors.svg?style=flat)](http://cocoadocs.org/docsets/FuzzySearch)
+[![License](https://img.shields.io/cocoapods/l/SwiftHEXColors.svg)](https://raw.githubusercontent.com/viktorasl/FuzzySearch/master/LICENSE)
 
 Lightweight Fuzzy evaluation protocol with CollectionType extension
 
