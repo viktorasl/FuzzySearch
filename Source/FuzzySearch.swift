@@ -53,7 +53,7 @@ private extension String {
     // checking if string has prefix and returning prefix length on success
     func hasPrefix(_ prefix: CharOpts, atIndex index: Int) -> Int? {
         for pfx in [prefix.ch, prefix.normalized] {
-            if substring(from: characters.index(startIndex, offsetBy: index)).hasPrefix(pfx) {
+            if (self as NSString).substring(from: index).hasPrefix(pfx) {
                 return pfx.characters.count
             }
         }
