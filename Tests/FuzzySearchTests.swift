@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import FuzzySearch
+@testable import FuzzySearch
 
 extension String: FuzzySearchable {
     public var fuzzyStringToMatch: String {
@@ -65,6 +65,8 @@ class FuzzySearchTests: XCTestCase {
         XCTAssertEqual(str.fuzzyMatch("we").weight, 4)
         XCTAssertEqual(str.fuzzyMatch("wei").weight, 11)
         XCTAssertEqual(str.fuzzyMatch("weir").weight, 26)
+        
+        XCTAssertEqual(str.fuzzyCache.lastTokenization.count, str.fuzzyStringToMatch.characters.count)
     }
     
     func testThatCorrectMatchingPartsAreReturned() {
