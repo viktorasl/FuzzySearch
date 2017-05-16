@@ -8,6 +8,9 @@
 
 import Foundation
 
+/// For objc_setAssociatedObject
+private var _fuzzyCache: Int = 0
+
 struct CharOpts {
     let ch: String
     let normalized: String
@@ -15,14 +18,14 @@ struct CharOpts {
 
 /// A private cache containing pre-parsed metadata from a previous `.fuzzyMatch`
 /// call.
-public class FuzzyCache {
+class FuzzyCache {
     /// Hash of last fuzzed string
     internal var hash: Int?
     
     /// Array of last parsed fuzzy characters
     internal var lastTokenization: [CharOpts] = []
     
-    public init() {
+    init() {
         
     }
 }
@@ -70,18 +73,38 @@ public protocol FuzzySearchable {
     var fuzzyStringToMatch: String { get }
 }
 
-/// Variant of FuzzySearchable that allows for caching of the fuzzy strings
-public protocol CachedFuzzySearchable: FuzzySearchable {
-    var fuzzyCache: FuzzyCache { get }
-}
-
-private extension FuzzySearchable {
-    func fuzzyTokenized() -> FuzzyTokens {
-        return FuzzyTokens(tokens: fuzzyStringToMatch.tokenize())
+extension FuzzySearchable {
+    var fuzzyCache: FuzzyCache {
+        // Create cache, if not available yet
+        let cache: FuzzyCache
+        if let _cache = objc_getAssociatedObject(self, &_fuzzyCache) as? FuzzyCache {
+            cache = _cache
+        } else {
+            cache = FuzzyCache()
+            objc_setAssociatedObject(self, &_fuzzyCache, cache, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+        
+        return cache
     }
     
-    /// Main fuzzy method - used by `fuzzyMatch` calls bellow along with `fuzzyTokenized`.
-    func fuzzyMatch(_ tokens: [CharOpts], _ pattern: String) -> FuzzySearchResult {
+    func fuzzyTokenized() -> FuzzyTokens {
+        let cache = fuzzyCache
+        
+        // Re-create fuzzy cache, if stale
+        if cache.hash == nil || cache.hash != fuzzyStringToMatch.hashValue {
+            let tokens = fuzzyStringToMatch.tokenize()
+            cache.hash = fuzzyStringToMatch.hashValue
+            cache.lastTokenization = tokens
+        }
+        
+        return FuzzyTokens(tokens: cache.lastTokenization)
+    }
+}
+
+public extension FuzzySearchable {
+    func fuzzyMatch(_ pattern: String) -> FuzzySearchResult {
+        let compareString = fuzzyTokenized().tokens
+        
         let pattern = pattern.lowercased()
         
         var totalScore = 0
@@ -91,7 +114,7 @@ private extension FuzzySearchable {
         var currScore = 0
         var currPart = NSRange(location: 0, length: 0)
         
-        for (idx, strChar) in tokens.enumerated() {
+        for (idx, strChar) in compareString.enumerated() {
             if let prefixLength = pattern.hasPrefix(strChar, atIndex: patternIdx) {
                 patternIdx += prefixLength
                 currScore += 1 + currScore
@@ -115,33 +138,6 @@ private extension FuzzySearchable {
         } else {
             return FuzzySearchResult(weight: 0, parts: [])
         }
-    }
-}
-
-private extension CachedFuzzySearchable {
-    func fuzzyTokenized() -> FuzzyTokens {
-        // Re-create fuzzy cache, if stale
-        if fuzzyCache.hash == nil || fuzzyCache.hash != fuzzyStringToMatch.hashValue {
-            let tokens = fuzzyStringToMatch.tokenize()
-            fuzzyCache.hash = fuzzyStringToMatch.hashValue
-            fuzzyCache.lastTokenization = tokens
-        }
-        
-        return FuzzyTokens(tokens: fuzzyCache.lastTokenization)
-    }
-}
-
-public extension FuzzySearchable {
-    func fuzzyMatch(_ pattern: String) -> FuzzySearchResult {
-        let compareString = fuzzyTokenized().tokens
-        return fuzzyMatch(compareString, pattern)
-    }
-}
-
-public extension CachedFuzzySearchable {
-    func fuzzyMatch(_ pattern: String) -> FuzzySearchResult {
-        let compareString = fuzzyTokenized().tokens
-        return fuzzyMatch(compareString, pattern)
     }
 }
 
