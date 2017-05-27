@@ -1,4 +1,4 @@
-language: objective-c
+language: swift
 osx_image: xcode8
 env:
   global:
@@ -9,3 +9,5 @@ env:
     - DESTINATION="OS=9.0,name=iPhone 5"        SCHEME="$IOS_FRAMEWORK_SCHEME"    SDK="$IOS_SDK"
 script:
   - xcodebuild -project "$PROJECT" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" ONLY_ACTIVE_ARCH=NO test | xcpretty
+after_success:
+  - bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -X xcodeplist -J 'FuzzySearch'
