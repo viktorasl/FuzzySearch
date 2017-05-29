@@ -70,7 +70,7 @@ players.fuzzyMatch("di")
 //]
 ```
 
-#### `CachedFuzzySearchable<T: FuzzySearchable>`
+### `CachedFuzzySearchable<T: FuzzySearchable>`
 
 Wraps over a `FuzzySearchable` instance, caching some underlying metadata generated while fuzzy-matching w/ `FuzzySearchable.fuzzyMatch`.
 
