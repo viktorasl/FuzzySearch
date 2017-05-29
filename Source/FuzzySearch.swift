@@ -86,9 +86,7 @@ public struct CachedFuzzySearchable<T> : FuzzySearchable where T : FuzzySearchab
     public var fuzzyStringToMatch: String {
         return searchable.fuzzyStringToMatch
     }
-}
-
-extension CachedFuzzySearchable {
+    
     public func fuzzyTokenized() -> FuzzyTokens {
         // Re-create fuzzy cache, if stale
         if fuzzyCache.hash == nil || fuzzyCache.hash != fuzzyStringToMatch.hashValue {
