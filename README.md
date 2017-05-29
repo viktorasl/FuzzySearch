@@ -99,7 +99,7 @@ players.fuzzyMatch("di") // Will fuzzy-match against original, non-cached Player
 
 `CachedFuzzySearchable` has storage needs of a little over 2x that of the `fuzzyStringToSearch` property of the wrapped `FuzzySearchable` value. Discarding a `CachedFuzzySearchable` value also discards the extra memory that was allocated.
 
-Returning a different value from the wrapped `FuzzySearchable`'s `fuzzyStringToSearch` property resets the cache automatically during the next `fuzzyMatch` call and the overhead is reset to that of a fresh `CachedFuzzySearchable` instance, so implementers shouldn't worry .
+Returning a different value from the wrapped `FuzzySearchable`'s `fuzzyStringToSearch` property resets the cache automatically during the next `fuzzyMatch` call and the overhead is reset to that of a fresh `CachedFuzzySearchable` instance, so implementers shouldn't worry about mantaining a stable `fuzzyStringToSearch` result.
 
 ## License
 
