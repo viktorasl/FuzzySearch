@@ -8,7 +8,7 @@
 
 import Foundation
 
-private struct CharOpts {
+internal struct CharOpts {
     let ch: String
     let normalized: String
 }
@@ -16,14 +16,14 @@ private struct CharOpts {
 /// A private cache containing pre-parsed metadata from a previous `.fuzzyMatch`
 /// call.
 /// Used by CachedFuzzySearchable<T> bellow.
-public class FuzzyCache {
+internal class FuzzyCache {
     /// Hash of last fuzzed string
-    fileprivate var hash: Int?
+    internal var hash: Int?
     
     /// Array of last parsed fuzzy characters
-    fileprivate var lastTokenization: [CharOpts] = []
+    internal var lastTokenization: [CharOpts] = []
     
-    public init() {
+    internal init() {
         
     }
 }
@@ -34,7 +34,7 @@ public struct FuzzyTokens {
     fileprivate var tokens: [CharOpts]
 }
 
-private extension String {
+internal extension String {
     func tokenize() -> [CharOpts] {
         return characters.map{
             let str = String($0).lowercased()
@@ -76,8 +76,8 @@ public extension FuzzySearchable {
 
 /// Container over a FuzzySearchable that allows caching of the fuzzy contents.
 public struct CachedFuzzySearchable<T> : FuzzySearchable where T : FuzzySearchable {
-    fileprivate let searchable: T
-    fileprivate var fuzzyCache = FuzzyCache()
+    internal let searchable: T
+    internal let fuzzyCache = FuzzyCache()
     
     public init(searchable: T) {
         self.searchable = searchable
