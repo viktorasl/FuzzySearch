@@ -40,7 +40,7 @@ class FuzzySearchTests: XCTestCase {
     }
     
     func testThatConsecutiveMatchingGives2xForEachChar_Cached() {
-        let str = CachedFuzzySearchable(searchable: "Ladies Wash, Cut & Blow Dry")
+        let str = CachedFuzzySearchable(wrapping: "Ladies Wash, Cut & Blow Dry")
         
         XCTAssertEqual(str.fuzzyMatch("l").weight, 1)
         XCTAssertEqual(str.fuzzyMatch("la").weight, 4)
