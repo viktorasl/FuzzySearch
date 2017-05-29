@@ -35,11 +35,6 @@ public struct FuzzyTokens {
 }
 
 private extension String {
-    subscript(i: Int) -> Character? {
-        guard i >= 0 && i < characters.count else { return nil }
-        return self[characters.index(startIndex, offsetBy: i)]
-    }
-    
     func tokenize() -> [CharOpts] {
         return characters.map{
             let str = String($0).lowercased()
