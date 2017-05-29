@@ -15,8 +15,9 @@ extension String: FuzzySearchable {
     }
 }
 
-class CachedString: FuzzySearchable {
+struct CachedString: CachedFuzzySearchable {
     var fuzzyStringToMatch: String
+    var fuzzyCache: FuzzyCache = FuzzyCache()
     
     init(_ value: String) {
         self.fuzzyStringToMatch = value
@@ -50,7 +51,7 @@ class FuzzySearchTests: XCTestCase {
     }
     
     func testThatChangingFuzzyStringAffectsCache() {
-        let str = CachedString("Ladies Wash, Cut & Blow Dry")
+        var str = CachedString("Ladies Wash, Cut & Blow Dry")
         
         XCTAssertEqual(str.fuzzyMatch("l").weight, 1)
         XCTAssertEqual(str.fuzzyMatch("la").weight, 4)
