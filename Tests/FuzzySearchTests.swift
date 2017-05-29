@@ -7,11 +7,20 @@
 //
 
 import XCTest
-import FuzzySearch
+@testable import FuzzySearch
 
 extension String: FuzzySearchable {
     public var fuzzyStringToMatch: String {
         return self
+    }
+}
+
+struct CachedString: CachedFuzzySearchable {
+    var fuzzyStringToMatch: String
+    var fuzzyCache: FuzzyCache = FuzzyCache()
+    
+    init(_ value: String) {
+        self.fuzzyStringToMatch = value
     }
 }
 
@@ -29,6 +38,35 @@ class FuzzySearchTests: XCTestCase {
         XCTAssertEqual(str.fuzzyMatch("lad").weight, 11)
         XCTAssertEqual(str.fuzzyMatch("ladi").weight, 26)
         XCTAssertEqual(str.fuzzyMatch("ladie").weight, 57)
+    }
+    
+    func testThatConsecutiveMatchingGives2xForEachChar_Cached() {
+        let str = CachedString("Ladies Wash, Cut & Blow Dry")
+        
+        XCTAssertEqual(str.fuzzyMatch("l").weight, 1)
+        XCTAssertEqual(str.fuzzyMatch("la").weight, 4)
+        XCTAssertEqual(str.fuzzyMatch("lad").weight, 11)
+        XCTAssertEqual(str.fuzzyMatch("ladi").weight, 26)
+        XCTAssertEqual(str.fuzzyMatch("ladie").weight, 57)
+    }
+    
+    func testThatChangingFuzzyStringAffectsCache() {
+        var str = CachedString("Ladies Wash, Cut & Blow Dry")
+        
+        XCTAssertEqual(str.fuzzyMatch("l").weight, 1)
+        XCTAssertEqual(str.fuzzyMatch("la").weight, 4)
+        XCTAssertEqual(str.fuzzyMatch("lad").weight, 11)
+        XCTAssertEqual(str.fuzzyMatch("ladi").weight, 26)
+        XCTAssertEqual(str.fuzzyMatch("ladie").weight, 57)
+        
+        str.fuzzyStringToMatch = "Weird Assassin"
+        
+        XCTAssertEqual(str.fuzzyMatch("w").weight, 1)
+        XCTAssertEqual(str.fuzzyMatch("we").weight, 4)
+        XCTAssertEqual(str.fuzzyMatch("wei").weight, 11)
+        XCTAssertEqual(str.fuzzyMatch("weir").weight, 26)
+        
+        XCTAssertEqual(str.fuzzyCache.lastTokenization.count, str.fuzzyStringToMatch.characters.count)
     }
     
     func testThatCorrectMatchingPartsAreReturned() {
@@ -86,6 +124,17 @@ class FuzzySearchTests: XCTestCase {
         let spanishWords: Array<String> = try! JSONSerialization.jsonObject(with: jsonData as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! Array<String>
         measure{
             _ = spanishWords.fuzzyMatch("la sart")
+        }
+    }
+    
+    func testSpeedOfFuzzySearchFor1000SpanishWords_cached() {
+        let path = Bundle(for: type(of: self)).path(forResource: "spanish-words", ofType: "json")!
+        let jsonData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+        let spanishWords: Array<String> = try! JSONSerialization.jsonObject(with: jsonData as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! Array<String>
+        let spanishWordsCached = spanishWords.map(CachedString.init)
+        
+        measure {
+            _ = spanishWordsCached.fuzzyMatch("la sart")
         }
     }
 }
