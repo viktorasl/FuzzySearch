@@ -15,6 +15,7 @@ private struct CharOpts {
 
 /// A private cache containing pre-parsed metadata from a previous `.fuzzyMatch`
 /// call.
+/// Used by CachedFuzzySearchable<T> bellow.
 public class FuzzyCache {
     /// Hash of last fuzzed string
     fileprivate var hash: Int?
@@ -78,9 +79,18 @@ public extension FuzzySearchable {
     }
 }
 
-/// Variant of FuzzySearchable that allows for caching of the fuzzy strings
-public protocol CachedFuzzySearchable: FuzzySearchable {
-    var fuzzyCache: FuzzyCache { get }
+/// Container over a FuzzySearchable that allows caching of the fuzzy contents.
+public struct CachedFuzzySearchable<T> : FuzzySearchable where T : FuzzySearchable {
+    fileprivate let searchable: T
+    fileprivate var fuzzyCache = FuzzyCache()
+    
+    public init(searchable: T) {
+        self.searchable = searchable
+    }
+    
+    public var fuzzyStringToMatch: String {
+        return searchable.fuzzyStringToMatch
+    }
 }
 
 extension CachedFuzzySearchable {

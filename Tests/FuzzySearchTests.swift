@@ -15,9 +15,8 @@ extension String: FuzzySearchable {
     }
 }
 
-struct CachedString: CachedFuzzySearchable {
+class CacheableString: FuzzySearchable {
     var fuzzyStringToMatch: String
-    var fuzzyCache: FuzzyCache = FuzzyCache()
     
     init(_ value: String) {
         self.fuzzyStringToMatch = value
@@ -41,7 +40,7 @@ class FuzzySearchTests: XCTestCase {
     }
     
     func testThatConsecutiveMatchingGives2xForEachChar_Cached() {
-        let str = CachedString("Ladies Wash, Cut & Blow Dry")
+        let str = CachedFuzzySearchable(searchable: "Ladies Wash, Cut & Blow Dry")
         
         XCTAssertEqual(str.fuzzyMatch("l").weight, 1)
         XCTAssertEqual(str.fuzzyMatch("la").weight, 4)
@@ -51,7 +50,8 @@ class FuzzySearchTests: XCTestCase {
     }
     
     func testThatChangingFuzzyStringAffectsCache() {
-        var str = CachedString("Ladies Wash, Cut & Blow Dry")
+        let source = CacheableString("Ladies Wash, Cut & Blow Dry")
+        let str = CachedFuzzySearchable(searchable: source)
         
         XCTAssertEqual(str.fuzzyMatch("l").weight, 1)
         XCTAssertEqual(str.fuzzyMatch("la").weight, 4)
@@ -59,7 +59,7 @@ class FuzzySearchTests: XCTestCase {
         XCTAssertEqual(str.fuzzyMatch("ladi").weight, 26)
         XCTAssertEqual(str.fuzzyMatch("ladie").weight, 57)
         
-        str.fuzzyStringToMatch = "Weird Assassin"
+        source.fuzzyStringToMatch = "Weird Assassin"
         
         XCTAssertEqual(str.fuzzyMatch("w").weight, 1)
         XCTAssertEqual(str.fuzzyMatch("we").weight, 4)
@@ -129,7 +129,7 @@ class FuzzySearchTests: XCTestCase {
         let path = Bundle(for: type(of: self)).path(forResource: "spanish-words", ofType: "json")!
         let jsonData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
         let spanishWords: Array<String> = try! JSONSerialization.jsonObject(with: jsonData as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! Array<String>
-        let spanishWordsCached = spanishWords.map(CachedString.init)
+        let spanishWordsCached = spanishWords.map(CachedFuzzySearchable.init)
         
         measure {
             _ = spanishWordsCached.fuzzyMatch("la sart")
