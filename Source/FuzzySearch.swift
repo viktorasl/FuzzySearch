@@ -76,8 +76,8 @@ public extension FuzzySearchable {
     }
 }
 
-/// Container over a FuzzySearchable that allows caching of metadata generated while
-/// fuzzying.
+/// Container over a FuzzySearchable that allows caching of metadata generated
+/// while fuzzying.
 ///
 /// This allows for improved performance when fuzzy-searching multiple times 
 /// objects that don't change the contents of `fuzzyStringToMatch` too often.
