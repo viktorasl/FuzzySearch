@@ -51,7 +51,7 @@ class FuzzySearchTests: XCTestCase {
     
     func testThatChangingFuzzyStringAffectsCache() {
         let source = CacheableString("Ladies Wash, Cut & Blow Dry")
-        let str = CachedFuzzySearchable(searchable: source)
+        let str = CachedFuzzySearchable(wrapping: source)
         
         XCTAssertEqual(str.fuzzyMatch("l").weight, 1)
         XCTAssertEqual(str.fuzzyMatch("la").weight, 4)

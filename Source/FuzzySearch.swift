@@ -85,7 +85,7 @@ public struct CachedFuzzySearchable<T> : FuzzySearchable where T : FuzzySearchab
     internal let searchable: T
     internal let fuzzyCache: FuzzyCache
     
-    public init(searchable: T) {
+    public init(wrapping searchable: T) {
         self.searchable = searchable
         self.fuzzyCache = FuzzyCache()
     }
