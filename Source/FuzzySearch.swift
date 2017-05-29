@@ -62,6 +62,8 @@ public struct FuzzySearchResult {
     public let parts: [NSRange]
 }
 
+/// Specifies that a value exposes a string fit for fuzzy-matching against string
+/// patterns.
 public protocol FuzzySearchable {
     var fuzzyStringToMatch: String { get }
     
@@ -74,13 +76,18 @@ public extension FuzzySearchable {
     }
 }
 
-/// Container over a FuzzySearchable that allows caching of the fuzzy contents.
+/// Container over a FuzzySearchable that allows caching of metadata generated while
+/// fuzzying.
+///
+/// This allows for improved performance when fuzzy-searching multiple times 
+/// objects that don't change the contents of `fuzzyStringToMatch` too often.
 public struct CachedFuzzySearchable<T> : FuzzySearchable where T : FuzzySearchable {
     internal let searchable: T
-    internal let fuzzyCache = FuzzyCache()
+    internal let fuzzyCache: FuzzyCache
     
     public init(searchable: T) {
         self.searchable = searchable
+        self.fuzzyCache = FuzzyCache()
     }
     
     public var fuzzyStringToMatch: String {
