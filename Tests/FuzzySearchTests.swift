@@ -120,7 +120,14 @@ class FuzzySearchTests: XCTestCase {
         let path = Bundle(for: type(of: self)).path(forResource: "spanish-words", ofType: "json")!
         let jsonData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
         let spanishWords: Array<String> = try! JSONSerialization.jsonObject(with: jsonData as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! Array<String>
+        
         measure{
+            _ = spanishWords.fuzzyMatch("l")
+            _ = spanishWords.fuzzyMatch("la")
+            _ = spanishWords.fuzzyMatch("la ")
+            _ = spanishWords.fuzzyMatch("la s")
+            _ = spanishWords.fuzzyMatch("la sa")
+            _ = spanishWords.fuzzyMatch("la sar")
             _ = spanishWords.fuzzyMatch("la sart")
         }
     }
@@ -132,6 +139,12 @@ class FuzzySearchTests: XCTestCase {
         let spanishWordsCached = spanishWords.map(CachedFuzzySearchable.init)
         
         measure {
+            _ = spanishWordsCached.fuzzyMatch("l")
+            _ = spanishWordsCached.fuzzyMatch("la")
+            _ = spanishWordsCached.fuzzyMatch("la ")
+            _ = spanishWordsCached.fuzzyMatch("la s")
+            _ = spanishWordsCached.fuzzyMatch("la sa")
+            _ = spanishWordsCached.fuzzyMatch("la sar")
             _ = spanishWordsCached.fuzzyMatch("la sart")
         }
     }
