@@ -67,13 +67,7 @@ public struct FuzzySearchResult {
 public protocol FuzzySearchable {
     var fuzzyStringToMatch: String { get }
     
-    func fuzzyTokenized() -> FuzzyTokens
-}
-
-public extension FuzzySearchable {
-    func fuzzyTokenized() -> FuzzyTokens {
-        return FuzzyTokens(tokens: fuzzyStringToMatch.tokenize())
-    }
+    func fuzzyMatch(_ pattern: String) -> FuzzySearchResult
 }
 
 /// Container over a FuzzySearchable that allows caching of metadata generated
@@ -93,22 +87,13 @@ public struct CachedFuzzySearchable<T> : FuzzySearchable where T : FuzzySearchab
     public var fuzzyStringToMatch: String {
         return searchable.fuzzyStringToMatch
     }
-    
-    public func fuzzyTokenized() -> FuzzyTokens {
-        // Re-create fuzzy cache, if stale
-        if fuzzyCache.hash == nil || fuzzyCache.hash != fuzzyStringToMatch.hashValue {
-            let tokens = fuzzyStringToMatch.tokenize()
-            fuzzyCache.hash = fuzzyStringToMatch.hashValue
-            fuzzyCache.lastTokenization = FuzzyTokens(tokens: tokens)
-        }
-        
-        return fuzzyCache.lastTokenization
-    }
 }
 
-public extension FuzzySearchable {
-    func fuzzyMatch(_ pattern: String) -> FuzzySearchResult {
-        let compareString = fuzzyTokenized().tokens
+// Private implementation of fuzzy matcher that is used by `FuzzySearchable` and
+// the specialized `CachedFuzzySearchable` bellow.
+extension FuzzySearchable {
+    func fuzzyMatch(_ pattern: String, with tokens: FuzzyTokens) -> FuzzySearchResult {
+        let compareString = tokens.tokens
         
         let pattern = pattern.lowercased()
         
@@ -143,6 +128,45 @@ public extension FuzzySearchable {
         } else {
             return FuzzySearchResult(weight: 0, parts: [])
         }
+    }
+}
+
+extension FuzzySearchable {
+    func fuzzyTokenized() -> FuzzyTokens {
+        return FuzzyTokens(tokens: fuzzyStringToMatch.tokenize())
+    }
+}
+
+extension CachedFuzzySearchable {
+    func fuzzyTokenized() -> FuzzyTokens {
+        // Re-create fuzzy cache, if stale
+        if fuzzyCache.hash == nil || fuzzyCache.hash != fuzzyStringToMatch.hashValue {
+            let tokens = fuzzyStringToMatch.tokenize()
+            fuzzyCache.hash = fuzzyStringToMatch.hashValue
+            fuzzyCache.lastTokenization = FuzzyTokens(tokens: tokens)
+        }
+        
+        return fuzzyCache.lastTokenization
+    }
+}
+
+public extension FuzzySearchable {
+    func fuzzyMatch(_ pattern: String) -> FuzzySearchResult {
+        let tokens = fuzzyTokenized()
+        return fuzzyMatch(pattern, with: tokens)
+    }
+}
+
+public extension CachedFuzzySearchable {
+    // Note: Extension here is required to use the internal `CachedFuzzySearchable.fuzzyTokenized`
+    // method, otherwise we end up using the `FuzzySearchable.fuzzyTokenized`
+    // implementation which, since it's declared in an extension, cannot be overriden
+    // by `CachedFuzzySearchable` (but `fuzzyMatch` can, and so we implement
+    // the call to the custom cached `fuzzyTokenized` method here).
+    
+    func fuzzyMatch(_ pattern: String) -> FuzzySearchResult {
+        let tokens = fuzzyTokenized()
+        return fuzzyMatch(pattern, with: tokens)
     }
 }
 
