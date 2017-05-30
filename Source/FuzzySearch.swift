@@ -21,7 +21,7 @@ internal class FuzzyCache {
     internal var hash: Int?
     
     /// Array of last parsed fuzzy characters
-    internal var lastTokenization: [CharOpts] = []
+    internal var lastTokenization = FuzzyTokens(tokens: [])
     
     internal init() {
         
@@ -99,10 +99,10 @@ public struct CachedFuzzySearchable<T> : FuzzySearchable where T : FuzzySearchab
         if fuzzyCache.hash == nil || fuzzyCache.hash != fuzzyStringToMatch.hashValue {
             let tokens = fuzzyStringToMatch.tokenize()
             fuzzyCache.hash = fuzzyStringToMatch.hashValue
-            fuzzyCache.lastTokenization = tokens
+            fuzzyCache.lastTokenization = FuzzyTokens(tokens: tokens)
         }
         
-        return FuzzyTokens(tokens: fuzzyCache.lastTokenization)
+        return fuzzyCache.lastTokenization
     }
 }
 
