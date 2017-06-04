@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal struct CharOpts {
+fileprivate struct CharOpts {
     let ch: String
     let normalized: String
 }
@@ -16,25 +16,25 @@ internal struct CharOpts {
 /// A private cache containing pre-parsed metadata from a previous `.fuzzyMatch`
 /// call.
 /// Used by CachedFuzzySearchable<T> bellow.
-internal class FuzzyCache {
+fileprivate class FuzzyCache {
     /// Hash of last fuzzed string
-    internal var hash: Int?
+    fileprivate var hash: Int?
     
     /// Array of last parsed fuzzy characters
-    internal var lastTokenization = FuzzyTokens(tokens: [])
+    fileprivate var lastTokenization = FuzzyTokens(tokens: [])
     
-    internal init() {
+    fileprivate init() {
         
     }
 }
 
 /// Opaque struct containing the results of a pre-tokenization phase that is
 /// applied to a fuzzy searchable value.
-public struct FuzzyTokens {
+fileprivate struct FuzzyTokens {
     fileprivate var tokens: [CharOpts]
 }
 
-internal extension String {
+fileprivate extension String {
     func tokenize() -> [CharOpts] {
         return characters.map{
             let str = String($0).lowercased()
@@ -76,8 +76,8 @@ public protocol FuzzySearchable {
 /// This allows for improved performance when fuzzy-searching multiple times 
 /// objects that don't change the contents of `fuzzyStringToMatch` too often.
 public struct CachedFuzzySearchable<T> : FuzzySearchable where T : FuzzySearchable {
-    internal let searchable: T
-    internal let fuzzyCache: FuzzyCache
+    fileprivate let searchable: T
+    fileprivate let fuzzyCache: FuzzyCache
     
     public init(wrapping searchable: T) {
         self.searchable = searchable
@@ -91,7 +91,7 @@ public struct CachedFuzzySearchable<T> : FuzzySearchable where T : FuzzySearchab
 
 // Private implementation of fuzzy matcher that is used by `FuzzySearchable` and
 // the specialized `CachedFuzzySearchable` bellow.
-extension FuzzySearchable {
+fileprivate extension FuzzySearchable {
     func fuzzyMatch(_ pattern: String, with tokens: FuzzyTokens) -> FuzzySearchResult {
         let compareString = tokens.tokens
         
@@ -131,13 +131,13 @@ extension FuzzySearchable {
     }
 }
 
-extension FuzzySearchable {
+fileprivate extension FuzzySearchable {
     func fuzzyTokenized() -> FuzzyTokens {
         return FuzzyTokens(tokens: fuzzyStringToMatch.tokenize())
     }
 }
 
-extension CachedFuzzySearchable {
+fileprivate extension CachedFuzzySearchable {
     func fuzzyTokenized() -> FuzzyTokens {
         // Re-create fuzzy cache, if stale
         if fuzzyCache.hash == nil || fuzzyCache.hash != fuzzyStringToMatch.hashValue {
@@ -158,7 +158,7 @@ public extension FuzzySearchable {
 }
 
 public extension CachedFuzzySearchable {
-    // Note: Extension here is required to use the internal `CachedFuzzySearchable.fuzzyTokenized`
+    // Note: Extension here is required to use the fileprivate `CachedFuzzySearchable.fuzzyTokenized`
     // method, otherwise we end up using the `FuzzySearchable.fuzzyTokenized`
     // implementation which, since it's declared in an extension, cannot be overriden
     // by `CachedFuzzySearchable` (but `fuzzyMatch` can, and so we implement
