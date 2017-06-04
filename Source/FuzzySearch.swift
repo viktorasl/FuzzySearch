@@ -38,10 +38,11 @@ internal extension String {
     func tokenize() -> [CharOpts] {
         return characters.map{
             let str = String($0).lowercased()
-            guard let data = str.data(using: .ascii, allowLossyConversion: true),
-                let accentFoldedStr = String(data: data, encoding: .ascii) else {
-                return CharOpts(ch: str, normalized: str)
-            }
+            // Returns nil only if flag is false and the receiver can't be converted without losing some information
+            // so it's safe to force unwrap the result
+            let data = str.data(using: .ascii, allowLossyConversion: true)!
+            // as data was encoded using ascii encoding it's safe to force unwrap the result
+            let accentFoldedStr = String(data: data, encoding: .ascii)!
             return CharOpts(ch: str, normalized: accentFoldedStr)
         }
     }
@@ -125,9 +126,8 @@ extension FuzzySearchable {
         if patternIdx == pattern.characters.count {
             // if all pattern chars were found
             return FuzzySearchResult(weight: totalScore, parts: parts)
-        } else {
-            return FuzzySearchResult(weight: 0, parts: [])
         }
+        return FuzzySearchResult(weight: 0, parts: [])
     }
 }
 

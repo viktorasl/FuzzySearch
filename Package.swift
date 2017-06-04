@@ -1,6 +1,6 @@
 import PackageDescription
 
 let package = Package(
-    name: "FuzzySearch",
+    name: "FuzzySearchi",
     exclude: ["Tests"]
 )

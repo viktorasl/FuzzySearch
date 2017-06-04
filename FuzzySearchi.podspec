@@ -1,10 +1,11 @@
 Pod::Spec.new do |s|
   s.name = 'FuzzySearchi'
   s.version = '1.1.0'
-  s.license = 'MIT'
+  s.license = { :type => 'MIT', :file => 'LICENSE' }
   s.summary = 'Lightweight Fuzzy evaluation protocol with CollectionType extension'
   s.homepage = 'https://github.com/viktorasl/FuzzySearch'
   s.authors = { 'Viktoras Laukevičius' => 'viktoras.laukevicius@yahoo.com' }
+  s.social_media_url = 'http://twitter.com/viktorasl'
   s.source = { :git => 'https://github.com/viktorasl/FuzzySearch.git', :tag => s.version }
 
   s.ios.deployment_target = '8.0'
