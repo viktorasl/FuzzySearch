@@ -1,6 +1,7 @@
 # FuzzySearch
 
 [![Swift 3.0](https://img.shields.io/badge/Swift-3.0-orange.svg?style=flat)](https://swift.org/)
+[![codecov](https://codecov.io/gh/viktorasl/FuzzySearch/branch/master/graph/badge.svg)](https://codecov.io/gh/viktorasl/FuzzySearch)
 [![Build Status](https://travis-ci.org/viktorasl/FuzzySearch.svg)](https://travis-ci.org/viktorasl/FuzzySearch)
 [![Swift Package Manager Compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-4BC51D.svg?style=flat)](https://github.com/apple/swift-package-manager)
 [![CocoaPods compatible](https://img.shields.io/cocoapods/v/FuzzySearchi.svg)](https://cocoapods.org/pods/FuzzySearchi)
