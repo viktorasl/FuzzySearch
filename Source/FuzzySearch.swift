@@ -58,16 +58,29 @@ internal extension String {
     }
 }
 
+/// Used to represent fuzzy search result
 public struct FuzzySearchResult {
+    /// Natural number represenated weight of match.
     public let weight: Int
+    /// Matched ranges in text.
     public let parts: [NSRange]
 }
 
+/// Types adopting `FuzzySearchable` protocol can be used to fuzzy search against
+/// text represented pattern.
+///
 /// Specifies that a value exposes a string fit for fuzzy-matching against string
 /// patterns.
 public protocol FuzzySearchable {
+    
+    /// Text representation which will be used to find fuzzy match against pattern
     var fuzzyStringToMatch: String { get }
     
+    /// Finds match info against provided pattern.
+    ///
+    /// - parameter pattern: a text against which fuzzy match will be searched.
+    ///
+    /// - returns: A FuzzySearchResult.
     func fuzzyMatch(_ pattern: String) -> FuzzySearchResult
 }
 
@@ -80,11 +93,16 @@ public struct CachedFuzzySearchable<T> : FuzzySearchable where T : FuzzySearchab
     internal let searchable: T
     internal let fuzzyCache: FuzzyCache
     
+    /// A `FuzzySearchable` instance which will be wrapped into `CachedFuzzySearchable` container
+    /// for faster fuzzy search when it's done multiple times on the same representation.
+    ///
+    /// parameter searchable: An instance conforming to `FuzzySearchable` protocol.
     public init(wrapping searchable: T) {
         self.searchable = searchable
         self.fuzzyCache = FuzzyCache()
     }
     
+    /// Text representation which will be used to find fuzzy match against pattern
     public var fuzzyStringToMatch: String {
         return searchable.fuzzyStringToMatch
     }
@@ -151,6 +169,12 @@ extension CachedFuzzySearchable {
 }
 
 public extension FuzzySearchable {
+    
+    /// Finds match info against provided pattern.
+    ///
+    /// - parameter pattern: a text against which fuzzy match will be searched.
+    ///
+    /// - returns: A FuzzySearchResult.
     func fuzzyMatch(_ pattern: String) -> FuzzySearchResult {
         let tokens = fuzzyTokenized()
         return fuzzyMatch(pattern, with: tokens)
@@ -158,12 +182,18 @@ public extension FuzzySearchable {
 }
 
 public extension CachedFuzzySearchable {
+    
     // Note: Extension here is required to use the internal `CachedFuzzySearchable.fuzzyTokenized`
     // method, otherwise we end up using the `FuzzySearchable.fuzzyTokenized`
     // implementation which, since it's declared in an extension, cannot be overriden
     // by `CachedFuzzySearchable` (but `fuzzyMatch` can, and so we implement
     // the call to the custom cached `fuzzyTokenized` method here).
     
+    /// Finds match info against provided pattern using cache container if possible.
+    ///
+    /// - parameter pattern: a text against which fuzzy match will be searched.
+    ///
+    /// - returns: A FuzzySearchResult.
     func fuzzyMatch(_ pattern: String) -> FuzzySearchResult {
         let tokens = fuzzyTokenized()
         return fuzzyMatch(pattern, with: tokens)
@@ -171,6 +201,14 @@ public extension CachedFuzzySearchable {
 }
 
 public extension Collection where Iterator.Element: FuzzySearchable {
+    
+    /// Iterates over elements conforming to `FuzzySearchable` protocol and gets `FuzzySearchResult`
+    /// for each of them. Filters results having weights greather than zero and sorts them
+    /// in descending order.
+    ///
+    /// - parameter pattern: a text against which fuzzy match will be searched.
+    ///
+    /// - returns: An array of 2-tuple containing element and it's `FuzzySearchResult`
     func fuzzyMatch(_ pattern: String) -> [(item: Iterator.Element, result: FuzzySearchResult)] {
         return map{
             (item: $0, result: $0.fuzzyMatch(pattern))
