@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E09C2551EE418AD00C851C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09C2541EE418AD00C851C4 /* AppDelegate.swift */; };
+		6E09C2571EE418AD00C851C4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09C2561EE418AD00C851C4 /* ViewController.swift */; };
+		6E09C25A1EE418AD00C851C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E09C2581EE418AD00C851C4 /* Main.storyboard */; };
+		6E09C25C1EE418AD00C851C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E09C25B1EE418AD00C851C4 /* Assets.xcassets */; };
+		6E09C25F1EE418AD00C851C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E09C25D1EE418AD00C851C4 /* LaunchScreen.storyboard */; };
+		6E09C2641EE418DD00C851C4 /* FuzzySearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC87F931D54C1EB001DF504 /* FuzzySearch.framework */; };
+		6E09C2661EE41C7900C851C4 /* countries.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E09C2651EE41C7900C851C4 /* countries.json */; };
 		6E7754481DD8F6E2007510E2 /* FuzzySearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC87F931D54C1EB001DF504 /* FuzzySearch.framework */; };
 		6E77544A1DD8F715007510E2 /* FuzzySearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC87FA21D54C1EB001DF504 /* FuzzySearchTests.swift */; };
 		6EC87F971D54C1EB001DF504 /* FuzzySearch.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC87F961D54C1EB001DF504 /* FuzzySearch.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -25,6 +32,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6E09C2521EE418AD00C851C4 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E09C2541EE418AD00C851C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6E09C2561EE418AD00C851C4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6E09C2591EE418AD00C851C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6E09C25B1EE418AD00C851C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6E09C25E1EE418AD00C851C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6E09C2601EE418AD00C851C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6E09C2651EE41C7900C851C4 /* countries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countries.json; sourceTree = "<group>"; };
 		6EC87F931D54C1EB001DF504 /* FuzzySearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FuzzySearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EC87F961D54C1EB001DF504 /* FuzzySearch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuzzySearch.h; sourceTree = "<group>"; };
 		6EC87F981D54C1EB001DF504 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -36,6 +51,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6E09C24F1EE418AD00C851C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E09C2641EE418DD00C851C4 /* FuzzySearch.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6EC87F8F1D54C1EB001DF504 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -54,11 +77,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6E09C2531EE418AD00C851C4 /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				6E09C2541EE418AD00C851C4 /* AppDelegate.swift */,
+				6E09C2561EE418AD00C851C4 /* ViewController.swift */,
+				6E09C2581EE418AD00C851C4 /* Main.storyboard */,
+				6E09C25B1EE418AD00C851C4 /* Assets.xcassets */,
+				6E09C25D1EE418AD00C851C4 /* LaunchScreen.storyboard */,
+				6E09C2601EE418AD00C851C4 /* Info.plist */,
+				6E09C2651EE41C7900C851C4 /* countries.json */,
+			);
+			path = Example;
+			sourceTree = "<group>";
+		};
 		6EC87F891D54C1EB001DF504 = {
 			isa = PBXGroup;
 			children = (
 				6EC87F951D54C1EB001DF504 /* Source */,
 				6EC87FA11D54C1EB001DF504 /* Tests */,
+				6E09C2531EE418AD00C851C4 /* Example */,
 				6EC87F941D54C1EB001DF504 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,6 +106,7 @@
 			children = (
 				6EC87F931D54C1EB001DF504 /* FuzzySearch.framework */,
 				6EC87F9D1D54C1EB001DF504 /* FuzzySearchTests.xctest */,
+				6E09C2521EE418AD00C851C4 /* Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -116,6 +155,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		6E09C2511EE418AD00C851C4 /* Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E09C2631EE418AD00C851C4 /* Build configuration list for PBXNativeTarget "Example" */;
+			buildPhases = (
+				6E09C24E1EE418AD00C851C4 /* Sources */,
+				6E09C24F1EE418AD00C851C4 /* Frameworks */,
+				6E09C2501EE418AD00C851C4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Example;
+			productName = Example;
+			productReference = 6E09C2521EE418AD00C851C4 /* Example.app */;
+			productType = "com.apple.product-type.application";
+		};
 		6EC87F921D54C1EB001DF504 /* FuzzySearch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6EC87FA71D54C1EB001DF504 /* Build configuration list for PBXNativeTarget "FuzzySearch" */;
@@ -158,10 +214,14 @@
 		6EC87F8A1D54C1EB001DF504 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Treatwell;
 				TargetAttributes = {
+					6E09C2511EE418AD00C851C4 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+					};
 					6EC87F921D54C1EB001DF504 = {
 						CreatedOnToolsVersion = 7.3.1;
 						LastSwiftMigration = 0820;
@@ -178,6 +238,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 6EC87F891D54C1EB001DF504;
 			productRefGroup = 6EC87F941D54C1EB001DF504 /* Products */;
@@ -186,11 +247,23 @@
 			targets = (
 				6EC87F921D54C1EB001DF504 /* FuzzySearch */,
 				6EC87F9C1D54C1EB001DF504 /* FuzzySearchTests */,
+				6E09C2511EE418AD00C851C4 /* Example */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6E09C2501EE418AD00C851C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E09C25F1EE418AD00C851C4 /* LaunchScreen.storyboard in Resources */,
+				6E09C25C1EE418AD00C851C4 /* Assets.xcassets in Resources */,
+				6E09C2661EE41C7900C851C4 /* countries.json in Resources */,
+				6E09C25A1EE418AD00C851C4 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6EC87F911D54C1EB001DF504 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -209,6 +282,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6E09C24E1EE418AD00C851C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E09C2571EE418AD00C851C4 /* ViewController.swift in Sources */,
+				6E09C2551EE418AD00C851C4 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6EC87F8E1D54C1EB001DF504 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -235,7 +317,57 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		6E09C2581EE418AD00C851C4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6E09C2591EE418AD00C851C4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		6E09C25D1EE418AD00C851C4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6E09C25E1EE418AD00C851C4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		6E09C2611EE418AD00C851C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorasl.FuzzySearch.Example;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		6E09C2621EE418AD00C851C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorasl.FuzzySearch.Example;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		6EC87FA51D54C1EB001DF504 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -402,6 +534,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6E09C2631EE418AD00C851C4 /* Build configuration list for PBXNativeTarget "Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E09C2611EE418AD00C851C4 /* Debug */,
+				6E09C2621EE418AD00C851C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		6EC87F8D1D54C1EB001DF504 /* Build configuration list for PBXProject "FuzzySearch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
