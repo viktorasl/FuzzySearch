@@ -70,6 +70,37 @@ players.fuzzyMatch("di")
 //]
 ```
 
+### `CachedFuzzySearchable<T: FuzzySearchable>`
+
+Wraps over a `FuzzySearchable` instance, caching some underlying metadata generated while fuzzy-matching w/ `FuzzySearchable.fuzzyMatch`.
+
+Use this cached wrapper over `FuzzySearchable` instances that are expected to be fuzzy-matched multiple times without mutation to `fuzzyStringToMatch`:
+
+```swift
+let players = [
+  PlayerModel(name: "Diego Maradona", position: "CF", goals: 16),
+  PlayerModel(name: "David Beckham", position: "CAM", goals: 8),
+  PlayerModel(name: "Lionel Messi", position: "RW", goals: 15),
+  // Many more players ...
+]
+
+let fuzzyCachedPlayers =
+  players.map { player in 
+    CachedFuzzySearchable(wrapping: player) 
+  }
+
+fuzzyCachedPlayers.fuzzyMatch("di")
+
+// Subsequente calls to 'fuzzyMatch' over the array above cause less overhead when re-matching
+fuzzyCachedPlayers.fuzzyMatch("di") // Runs in about half time
+
+players.fuzzyMatch("di") // Will fuzzy-match against original, non-cached PlayerModel values.
+```
+
+`CachedFuzzySearchable` has storage needs of a little over 2x that of the `fuzzyStringToSearch` property of the wrapped `FuzzySearchable` value. Discarding a `CachedFuzzySearchable` value also discards the extra memory that was allocated.
+
+Returning a different value from the wrapped `FuzzySearchable`'s `fuzzyStringToSearch` property resets the cache automatically during the next `fuzzyMatch` call and the overhead is reset to that of a fresh `CachedFuzzySearchable` instance, so implementers shouldn't worry about mantaining a stable `fuzzyStringToSearch` return.
+
 ## License
 
 FuzzySearch is released under the [MIT](LICENSE) license.

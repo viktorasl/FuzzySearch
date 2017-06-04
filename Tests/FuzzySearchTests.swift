@@ -15,6 +15,14 @@ extension String: FuzzySearchable {
     }
 }
 
+class CacheableString: FuzzySearchable {
+    var fuzzyStringToMatch: String
+    
+    init(_ value: String) {
+        self.fuzzyStringToMatch = value
+    }
+}
+
 extension NSRange: Equatable {}
 public func ==(lhs: NSRange, rhs: NSRange) -> Bool {
     return lhs.length == rhs.length && lhs.location == rhs.location
@@ -29,6 +37,34 @@ class FuzzySearchTests: XCTestCase {
         XCTAssertEqual(str.fuzzyMatch("lad").weight, 11)
         XCTAssertEqual(str.fuzzyMatch("ladi").weight, 26)
         XCTAssertEqual(str.fuzzyMatch("ladie").weight, 57)
+    }
+    
+    func testThatConsecutiveMatchingGives2xForEachChar_Cached() {
+        let str = CachedFuzzySearchable(wrapping: "Ladies Wash, Cut & Blow Dry")
+        
+        XCTAssertEqual(str.fuzzyMatch("l").weight, 1)
+        XCTAssertEqual(str.fuzzyMatch("la").weight, 4)
+        XCTAssertEqual(str.fuzzyMatch("lad").weight, 11)
+        XCTAssertEqual(str.fuzzyMatch("ladi").weight, 26)
+        XCTAssertEqual(str.fuzzyMatch("ladie").weight, 57)
+    }
+    
+    func testThatChangingFuzzyStringAffectsCache() {
+        let source = CacheableString("Ladies Wash, Cut & Blow Dry")
+        let str = CachedFuzzySearchable(wrapping: source)
+        
+        XCTAssertEqual(str.fuzzyMatch("l").weight, 1)
+        XCTAssertEqual(str.fuzzyMatch("la").weight, 4)
+        XCTAssertEqual(str.fuzzyMatch("lad").weight, 11)
+        XCTAssertEqual(str.fuzzyMatch("ladi").weight, 26)
+        XCTAssertEqual(str.fuzzyMatch("ladie").weight, 57)
+        
+        source.fuzzyStringToMatch = "Weird Assassin"
+        
+        XCTAssertEqual(str.fuzzyMatch("w").weight, 1)
+        XCTAssertEqual(str.fuzzyMatch("we").weight, 4)
+        XCTAssertEqual(str.fuzzyMatch("wei").weight, 11)
+        XCTAssertEqual(str.fuzzyMatch("weir").weight, 26)
     }
     
     func testThatCorrectMatchingPartsAreReturned() {
@@ -84,8 +120,32 @@ class FuzzySearchTests: XCTestCase {
         let path = Bundle(for: type(of: self)).path(forResource: "spanish-words", ofType: "json")!
         let jsonData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
         let spanishWords: Array<String> = try! JSONSerialization.jsonObject(with: jsonData as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! Array<String>
+        
         measure{
+            _ = spanishWords.fuzzyMatch("l")
+            _ = spanishWords.fuzzyMatch("la")
+            _ = spanishWords.fuzzyMatch("la ")
+            _ = spanishWords.fuzzyMatch("la s")
+            _ = spanishWords.fuzzyMatch("la sa")
+            _ = spanishWords.fuzzyMatch("la sar")
             _ = spanishWords.fuzzyMatch("la sart")
+        }
+    }
+    
+    func testSpeedOfFuzzySearchFor1000SpanishWords_cached() {
+        let path = Bundle(for: type(of: self)).path(forResource: "spanish-words", ofType: "json")!
+        let jsonData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+        let spanishWords: Array<String> = try! JSONSerialization.jsonObject(with: jsonData as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! Array<String>
+        let spanishWordsCached = spanishWords.map(CachedFuzzySearchable.init)
+        
+        measure {
+            _ = spanishWordsCached.fuzzyMatch("l")
+            _ = spanishWordsCached.fuzzyMatch("la")
+            _ = spanishWordsCached.fuzzyMatch("la ")
+            _ = spanishWordsCached.fuzzyMatch("la s")
+            _ = spanishWordsCached.fuzzyMatch("la sa")
+            _ = spanishWordsCached.fuzzyMatch("la sar")
+            _ = spanishWordsCached.fuzzyMatch("la sart")
         }
     }
 }
