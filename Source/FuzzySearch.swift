@@ -3,7 +3,7 @@
 //  FuzzySearch
 //
 //  Created by Viktoras Laukevičius on 05/08/16.
-//  Copyright © 2016 Treatwell. All rights reserved.
+//  Copyright (c) 2016 Viktoras Laukevičius. All rights reserved.
 //
 
 import Foundation

@@ -3,7 +3,7 @@
 //  Example
 //
 //  Created by Viktoras Laukevičius on 04/06/2017.
-//  Copyright © 2017 Treatwell. All rights reserved.
+//  Copyright (c) 2017 Viktoras Laukevičius. All rights reserved.
 //
 
 import UIKit
